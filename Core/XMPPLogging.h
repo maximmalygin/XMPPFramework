@@ -189,3 +189,4 @@
 
 #define XMPPLogRecvPost(format, ...) XMPP_LOG_OBJC_MAYBE(XMPP_LOG_ASYNC_RECV_POST, xmppLogLevel, \
                                                 XMPP_LOG_FLAG_RECV_POST, XMPP_LOG_CONTEXT, format, ##__VA_ARGS__)
+

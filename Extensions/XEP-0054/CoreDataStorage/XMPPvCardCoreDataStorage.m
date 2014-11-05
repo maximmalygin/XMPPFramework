@@ -174,7 +174,7 @@ static XMPPvCardCoreDataStorage *sharedInstance;
 		vCard.vCardTemp = vCardTemp;
 		
 		// Update photo and photo hash
-		vCard.photoData = vCardTemp.photo;
+		vCard.photoData = vCardTemp.photoData;
 		
 		vCard.lastUpdated = [NSDate date];
 	}];

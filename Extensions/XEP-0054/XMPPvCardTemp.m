@@ -126,7 +126,7 @@ NSString *const kXMPPvCardTempElement = @"vCard";
 }
 
 
-- (NSData *)photo {
+- (NSData *)photoData {
 	NSData *decodedData = nil;
 	NSXMLElement *photo = [self elementForName:@"PHOTO"];
 	
@@ -145,7 +145,7 @@ NSString *const kXMPPvCardTempElement = @"vCard";
 }
 
 
-- (void)setPhoto:(NSData *)data {
+- (void)setPhotoData:(NSData *)data {
     
     NSXMLElement *photo = [self elementForName:@"PHOTO"];
     
@@ -174,6 +174,45 @@ NSString *const kXMPPvCardTempElement = @"vCard";
     }
 }
 
+- (NSString *)photoURL
+{
+    NSString *photoURL = nil;
+    NSXMLElement *photo = [self elementForName:@"PHOTO"];
+    
+    if (photo != nil) {
+        NSXMLElement *binval = [photo elementForName:@"BINVAL"];
+        /*According to the extention specification element "PHOTO" can contain or BINVAL of URI on the photo. (See http://xmpp.org/extensions/xep-0054.html#dtd)*/
+        if (!binval) {
+            photoURL = [photo stringValue];
+        }
+    }
+    
+    return photoURL;
+}
+
+- (void)setPhotoURL:(NSString *)photoURL
+{
+    NSXMLElement *photo = [self elementForName:@"PHOTO"];
+    
+    if (photoURL)
+    {
+        if (!photo)
+        {
+            photo = [NSXMLElement elementWithName:@"PHOTO" stringValue:photoURL];
+            [self addChild:photo];
+        }
+        else
+        {
+            [photo setStringValue:photoURL];
+        }
+    }
+    else
+    {
+        if (photo) {
+            [self removeChildAtIndex:[[self children] indexOfObject:photo]];
+        }
+    }
+}
 
 - (NSString *)nickname {
 	return [[self elementForName:@"NICKNAME"] stringValue];

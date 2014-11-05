@@ -231,12 +231,6 @@
 		dispatch_async(moduleQueue, block);
 }
 
-- (void)_fetchvCardTempForJID:(XMPPJID *)jid{
-    if(!jid) return;
-
-    [xmppStream sendElement:[XMPPvCardTemp iqvCardRequestForJID:jid]];
-}
-
 - (void)handleMyvcard:(XMPPIQ *)iq withInfo:(XMPPBasicTrackingInfo *)trackerInfo{
 
     if([iq isResultIQ])
@@ -251,6 +245,49 @@
 
 }
 
+#pragma mark - vCard Fetching
+
+- (void)_fetchvCardTempForJID:(XMPPJID *)jid{
+//    if(!jid) return;
+    
+    XMPPIQ *iq = [XMPPvCardTemp iqvCardRequestForJID:jid];
+    
+    __weak typeof(self) weakSelf = self;
+    [_myvCardTracker addElement:iq block:^(XMPPIQ *aIQ, id<XMPPTrackingInfo> info)
+    {
+        __strong typeof(self) strongSelf = weakSelf;
+        if ([aIQ isResultIQ])
+        {
+            [strongSelf processIncommingIQ:aIQ];
+        }
+        else if ([aIQ isErrorIQ])
+        {
+            [(id <XMPPvCardTempModuleDelegate>)strongSelf->multicastDelegate xmppvCardTempModule:strongSelf didReceiveError:aIQ forJID:jid];
+        }
+        
+    } timeout:30];
+    
+    [xmppStream sendElement:iq];
+}
+
+- (BOOL)processIncommingIQ:(XMPPIQ *)iq
+{
+    // Remember XML heirarchy memory management rules.
+    // The passed parameter is a subnode of the IQ, and we need to pass it to an asynchronous operation.
+    //
+    // Therefore we use vCardTempCopyFromIQ instead of vCardTempSubElementFromIQ.
+    
+    XMPPvCardTemp *vCardTemp = [XMPPvCardTemp vCardTempCopyFromIQ:iq];
+    if (vCardTemp != nil)
+    {
+        [self _updatevCardTemp:vCardTemp forJID:[iq from]];
+        
+        return YES;
+    }
+    
+    return NO;
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark XMPPStreamDelegate methods
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -259,21 +296,12 @@
 {
 	// This method is invoked on the moduleQueue.
 	
-    [_myvCardTracker invokeForElement:iq withObject:iq];
+    if (![_myvCardTracker invokeForElement:iq withObject:iq]) {
+        
+        return [self processIncommingIQ:iq];
+    };
     
-	// Remember XML heirarchy memory management rules.
-	// The passed parameter is a subnode of the IQ, and we need to pass it to an asynchronous operation.
-	// 
-	// Therefore we use vCardTempCopyFromIQ instead of vCardTempSubElementFromIQ.
 	
-    
-	XMPPvCardTemp *vCardTemp = [XMPPvCardTemp vCardTempCopyFromIQ:iq];
-	if (vCardTemp != nil)
-	{
-		[self _updatevCardTemp:vCardTemp forJID:[iq from]];
-		
-		return YES;
-	}
 	
 	return NO;
 }

@@ -43,7 +43,9 @@ extern NSString *const kXMPPvCardTempElement;
 
 
 @property (nonatomic, strong) NSDate *bday;
-@property (nonatomic, strong) NSData *photo;
+@property (nonatomic, strong) NSData *photoData;
+/*According to the extention specification element "PHOTO" can contain or BINVAL of URI on the photo. (See http://xmpp.org/extensions/xep-0054.html#dtd)*/
+@property (nonatomic, strong) NSString *photoURL;
 @property (nonatomic, strong) NSString *nickname;
 @property (nonatomic, strong) NSString *formattedName;
 @property (nonatomic, strong) NSString *familyName;

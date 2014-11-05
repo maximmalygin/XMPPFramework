@@ -65,6 +65,10 @@
         didReceivevCardTemp:(XMPPvCardTemp *)vCardTemp 
                      forJID:(XMPPJID *)jid;
 
+- (void)xmppvCardTempModule:(XMPPvCardTempModule *)vCardTempModule
+            didReceiveError:(XMPPIQ *)errorIQ
+                     forJID:(XMPPJID *)jid;
+
 - (void)xmppvCardTempModuleDidUpdateMyvCard:(XMPPvCardTempModule *)vCardTempModule;
 
 - (void)xmppvCardTempModule:(XMPPvCardTempModule *)vCardTempModule failedToUpdateMyvCard:(NSXMLElement *)error;

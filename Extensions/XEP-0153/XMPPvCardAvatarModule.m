@@ -250,10 +250,10 @@ NSString *const kXMPPvCardAvatarPhotoElement = @"photo";
 {
 	XMPPLogTrace();
 	
-	if (vCardTemp.photo != nil)
+	if (vCardTemp.photoData != nil)
 	{
 	#if TARGET_OS_IPHONE
-		UIImage *photo = [UIImage imageWithData:vCardTemp.photo];
+		UIImage *photo = [UIImage imageWithData:vCardTemp.photoData];
 	#else
 		NSImage *photo = [[NSImage alloc] initWithData:vCardTemp.photo];
 	#endif

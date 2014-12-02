@@ -207,6 +207,9 @@ typedef SCNetworkConnectionFlags SCNetworkReachabilityFlags;
 		
 		if ([xmppStream isDisconnected] && [self manuallyStarted] == NO)
 		{
+//          Set this flag to YES to perform reconnect in case of general internet error during first connection attempt
+            [self setShouldReconnect:YES];
+            
 			[self setManuallyStarted:YES];
 			
 			[self setupReconnectTimer];
@@ -263,6 +266,10 @@ typedef SCNetworkConnectionFlags SCNetworkReachabilityFlags;
 	// the stream opens but prior to authentication completing.
 	// If this happens we still want to abide by the previous shouldReconnect setting.
 	
+    
+    //  Set this flag to NO to avoid reconnection in case authentification error
+    [self setShouldReconnect:NO];
+    
 	[self setMultipleReachabilityChanges:NO];
 	[self setManuallyStarted:NO];
 	

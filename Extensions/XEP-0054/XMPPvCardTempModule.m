@@ -137,10 +137,21 @@
 			vCardTemp = [_xmppvCardTempModuleStorage vCardTempForJID:jid xmppStream:xmppStream];
 		}
 		
-		if (vCardTemp == nil && [_xmppvCardTempModuleStorage shouldFetchvCardTempForJID:jid xmppStream:xmppStream])
-		{
-			[self _fetchvCardTempForJID:jid];
-		}
+        
+        if (vCardTemp)
+        {
+            [(id <XMPPvCardTempModuleDelegate>)multicastDelegate xmppvCardTempModule:self
+                                                                 didReceivevCardTemp:vCardTemp
+                                                                              forJID:jid];
+        }
+        else if ([_xmppvCardTempModuleStorage shouldFetchvCardTempForJID:jid xmppStream:xmppStream])
+        {
+            [self _fetchvCardTempForJID:jid];
+        }
+        else
+        {
+            [(id <XMPPvCardTempModuleDelegate>)multicastDelegate xmppvCardTempModule:self didReceiveError:nil forJID:jid];
+        }
 		
 	}};
 	

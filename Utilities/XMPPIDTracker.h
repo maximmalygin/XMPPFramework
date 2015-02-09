@@ -154,6 +154,12 @@ extern const NSTimeInterval XMPPIDTrackerTimeoutNone;
 - (void)removeID:(NSString *)elementID;
 - (void)removeAllIDs;
 
+/*
+ Performes block in internal queue
+ */
+- (void)performBlockAndWait:(dispatch_block_t)block;
+- (void)performBlock:(dispatch_block_t)block;
+
 @end
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

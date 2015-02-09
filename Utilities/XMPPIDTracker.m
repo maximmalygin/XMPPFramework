@@ -238,6 +238,21 @@ const NSTimeInterval XMPPIDTrackerTimeoutNone = -1;
 	[dict removeAllObjects];
 }
 
+#pragma mark - Block dispatching
+
+- (void)performBlockAndWait:(dispatch_block_t)block
+{
+    if (dispatch_get_specific(queueTag))
+        block();
+    else
+        dispatch_sync(queue, block);
+}
+
+- (void)performBlock:(dispatch_block_t)block
+{
+    dispatch_async(queue, block);
+}
+
 @end
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -47,9 +47,12 @@
 	
 	start = dispatch_time(DISPATCH_TIME_NOW, 0);
 	timeout = (inTimeout * NSEC_PER_SEC);
-	interval = (inInterval > 0.0) ? (inInterval * NSEC_PER_SEC) : DISPATCH_TIME_FOREVER;
-	
-	dispatch_source_set_timer(timer, dispatch_time(start, timeout), interval, 0);
+    interval = (inInterval > 0.0) ? (inInterval * NSEC_PER_SEC) : DISPATCH_TIME_FOREVER;
+    
+    /*
+     (interval == DISPATCH_TIME_FOREVER) ? DISPATCH_TIME_FOREVER : interval - ugly fix. DISPATCH_TIME_FOREVER does not work after casting to uint64_t
+     */
+    dispatch_source_set_timer(timer, dispatch_time(start, timeout), (interval == DISPATCH_TIME_FOREVER) ? DISPATCH_TIME_FOREVER : interval, 0);
 	dispatch_resume(timer);
 	
 	isStarted = YES;
@@ -68,7 +71,10 @@
 	}
 	timeout = (inTimeout * NSEC_PER_SEC);
 	
-	dispatch_source_set_timer(timer, dispatch_time(start, timeout), interval, 0);
+    /*
+     (interval == DISPATCH_TIME_FOREVER) ? DISPATCH_TIME_FOREVER : interval - ugly fix. DISPATCH_TIME_FOREVER does not work after casting to uint64_t
+     */
+	dispatch_source_set_timer(timer, dispatch_time(start, timeout), (interval == DISPATCH_TIME_FOREVER) ? DISPATCH_TIME_FOREVER : interval, 0);
 }
 
 - (void)cancel

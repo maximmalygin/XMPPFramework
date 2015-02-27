@@ -47,7 +47,7 @@
 	
 	start = dispatch_time(DISPATCH_TIME_NOW, 0);
 	timeout = (inTimeout * NSEC_PER_SEC);
-    interval = inInterval;
+    interval = (inInterval * NSEC_PER_SEC);
     
     dispatch_source_set_timer(timer, dispatch_time(start, timeout), (interval > 0.0) ? interval : DISPATCH_TIME_FOREVER, 0);
 	dispatch_resume(timer);

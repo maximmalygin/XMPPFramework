@@ -9,6 +9,16 @@
 @interface XMPPTimer : NSObject
 
 /**
+ * Current timeout value that was set in method startWithTimeout:interval: or updateTimeout:fromOriginalStartTime:
+ **/
+@property (assign, nonatomic, readonly) NSTimeInterval timeout;
+
+/**
+ * Current interval value that was set in method startWithTimeout:interval:
+ **/
+@property (assign, nonatomic, readonly) NSTimeInterval interval;
+
+/**
  * Creates an instance of a timer that will fire on the given queue.
  * It will invoke the given event handler block when it fires.
 **/

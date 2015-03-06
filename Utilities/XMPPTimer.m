@@ -83,4 +83,16 @@
 	}
 }
 
+#pragma mark - Properties
+
+- (NSTimeInterval)timeout
+{
+    return (NSTimeInterval)timeout / NSEC_PER_SEC;
+}
+
+- (NSTimeInterval)interval
+{
+    return (NSTimeInterval)interval / NSEC_PER_SEC;
+}
+
 @end

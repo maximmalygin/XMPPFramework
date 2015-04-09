@@ -57,6 +57,11 @@
 
 - (void)updateTimeout:(NSTimeInterval)inTimeout fromOriginalStartTime:(BOOL)useOriginalStartTime
 {
+    [self updateTimeout:inTimeout fromOriginalStartTime:useOriginalStartTime interval:interval];
+}
+
+- (void)updateTimeout:(NSTimeInterval)inTimeout fromOriginalStartTime:(BOOL)useOriginalStartTime interval:(NSTimeInterval)inInterval
+{
 	if (!isStarted)
 	{
 		XMPPLogWarn(@"Unable to update timer - not yet started");
@@ -67,6 +72,7 @@
 		start = dispatch_time(DISPATCH_TIME_NOW, 0);
 	}
 	timeout = (inTimeout * NSEC_PER_SEC);
+    interval = (inInterval * NSEC_PER_SEC);
 	
 	dispatch_source_set_timer(timer, dispatch_time(start, timeout), (interval > 0.0) ? interval : DISPATCH_TIME_FOREVER, 0);
 }

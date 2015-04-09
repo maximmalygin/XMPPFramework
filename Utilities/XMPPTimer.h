@@ -42,6 +42,7 @@
  * The new timeout that you pass can be applied to 'now' or to the original start time of the timer.
 **/
 - (void)updateTimeout:(NSTimeInterval)timeout fromOriginalStartTime:(BOOL)useOriginalStartTime;
+- (void)updateTimeout:(NSTimeInterval)inTimeout fromOriginalStartTime:(BOOL)useOriginalStartTime interval:(NSTimeInterval)inInterval;
 
 /**
  * Cancels the timer so that it won't fire.

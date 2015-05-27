@@ -269,7 +269,7 @@
         __strong typeof(self) strongSelf = weakSelf;
         if ([aIQ isResultIQ])
         {
-            [strongSelf processIncommingIQ:aIQ];
+            [strongSelf processIncomingIQ:aIQ];
         }
         else if ([aIQ isErrorIQ])
         {
@@ -281,7 +281,7 @@
     [xmppStream sendElement:iq];
 }
 
-- (BOOL)processIncommingIQ:(XMPPIQ *)iq
+- (BOOL)processIncomingIQ:(XMPPIQ *)iq
 {
     // Remember XML heirarchy memory management rules.
     // The passed parameter is a subnode of the IQ, and we need to pass it to an asynchronous operation.
@@ -309,7 +309,7 @@
 	
     if (![_myvCardTracker invokeForElement:iq withObject:iq]) {
         
-        return [self processIncommingIQ:iq];
+        return [self processIncomingIQ:iq];
     };
     
 	

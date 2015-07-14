@@ -262,7 +262,8 @@
 	SEL selector = [origInvocation selector];
 	BOOL foundNilDelegate = NO;
 	
-	for (GCDMulticastDelegateNode *node in delegateNodes)
+    NSArray *delegateNodesCopy = [delegateNodes copy];
+	for (GCDMulticastDelegateNode *node in delegateNodesCopy)
 	{
 		id nodeDelegate = node.delegate;
 		#if __has_feature(objc_arc_weak) && !TARGET_OS_IPHONE

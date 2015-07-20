@@ -205,7 +205,7 @@ typedef SCNetworkConnectionFlags SCNetworkReachabilityFlags;
 {
 	dispatch_block_t block = ^{ @autoreleasepool {
 		
-		if ([xmppStream isDisconnected] && [self manuallyStarted] == NO)
+		if (([xmppStream isDisconnected] || [xmppStream isConnecting]) && [self manuallyStarted] == NO)
 		{
 //          Set this flag to YES to perform reconnect in case of general internet error during first connection attempt
             [self setShouldReconnect:YES];

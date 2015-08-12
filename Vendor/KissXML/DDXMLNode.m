@@ -1604,11 +1604,19 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 			{
 				// Create a copy of the namespace, add to node's nsDef list, and then set as attribute's ns
 				xmlNsPtr attrNsCopy = xmlNewNs(NULL, attrNs->href, attrNs->prefix);
-				
-				attrNsCopy->next = node->nsDef;
-				node->nsDef = attrNsCopy;
-				
-				attr->ns = attrNsCopy;
+                
+                if (attrNsCopy != NULL) // Here is a workaround for the issue https://github.com/robbiehanson/KissXML/issues/30
+                {
+                    attrNsCopy->next = node->nsDef;
+                    node->nsDef = attrNsCopy;
+                    
+                    attr->ns = attrNsCopy;
+                }
+                else
+                {
+                    node->nsDef = NULL;
+                    attr->ns = NULL;
+                }
 			}
 			
 			attrNs = attrNs->next;

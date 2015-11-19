@@ -89,16 +89,11 @@ enum XMPPStreamConfig
     
 	dispatch_source_t connectTimer;
 	
-	GCDMulticastDelegate <XMPPStreamDelegate> *multicastDelegate;
-	
-	XMPPStreamState state;
-	
 	GCDAsyncSocket *asyncSocket;
 	
 	uint64_t numberOfBytesSent;
 	uint64_t numberOfBytesReceived;
 	
-	XMPPParser *parser;
 	NSError *parserError;
 	NSError *otherError;
 	
@@ -123,6 +118,8 @@ enum XMPPStreamConfig
 	XMPPPresence *myPresence;
 	NSXMLElement *rootElement;
 	
+    XMPPIDTracker *idTracker;
+    
 	NSTimeInterval keepAliveInterval;
 	dispatch_source_t keepAliveTimer;
 	NSTimeInterval lastSendReceiveTime;
@@ -134,8 +131,6 @@ enum XMPPStreamConfig
 	XMPPSRVResolver *srvResolver;
 	NSArray *srvResults;
 	NSUInteger srvResultsIndex;
-    
-    XMPPIDTracker *idTracker;
 	
 	NSMutableArray *receipts;
 	NSCountedSet *customElementNames;

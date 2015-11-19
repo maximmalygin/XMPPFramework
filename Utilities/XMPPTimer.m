@@ -47,15 +47,20 @@
 	
 	start = dispatch_time(DISPATCH_TIME_NOW, 0);
 	timeout = (inTimeout * NSEC_PER_SEC);
-	interval = (inInterval > 0.0) ? (inInterval * NSEC_PER_SEC) : DISPATCH_TIME_FOREVER;
-	
-	dispatch_source_set_timer(timer, dispatch_time(start, timeout), interval, 0);
+    interval = (inInterval * NSEC_PER_SEC);
+    
+    dispatch_source_set_timer(timer, dispatch_time(start, timeout), (interval > 0.0) ? interval : DISPATCH_TIME_FOREVER, 0);
 	dispatch_resume(timer);
 	
 	isStarted = YES;
 }
 
 - (void)updateTimeout:(NSTimeInterval)inTimeout fromOriginalStartTime:(BOOL)useOriginalStartTime
+{
+    [self updateTimeout:inTimeout fromOriginalStartTime:useOriginalStartTime interval:interval];
+}
+
+- (void)updateTimeout:(NSTimeInterval)inTimeout fromOriginalStartTime:(BOOL)useOriginalStartTime interval:(NSTimeInterval)inInterval
 {
 	if (!isStarted)
 	{
@@ -67,8 +72,9 @@
 		start = dispatch_time(DISPATCH_TIME_NOW, 0);
 	}
 	timeout = (inTimeout * NSEC_PER_SEC);
+    interval = (inInterval * NSEC_PER_SEC);
 	
-	dispatch_source_set_timer(timer, dispatch_time(start, timeout), interval, 0);
+	dispatch_source_set_timer(timer, dispatch_time(start, timeout), (interval > 0.0) ? interval : DISPATCH_TIME_FOREVER, 0);
 }
 
 - (void)cancel
@@ -81,6 +87,18 @@
 		#endif
 		timer = NULL;
 	}
+}
+
+#pragma mark - Properties
+
+- (NSTimeInterval)timeout
+{
+    return (NSTimeInterval)timeout / NSEC_PER_SEC;
+}
+
+- (NSTimeInterval)interval
+{
+    return (NSTimeInterval)interval / NSEC_PER_SEC;
 }
 
 @end

@@ -45,7 +45,31 @@ typedef NS_ENUM(NSUInteger, XMPPStreamStartTLSPolicy) {
 
 extern const NSTimeInterval XMPPStreamTimeoutNone;
 
+// Define the various states we'll use to track our progress
+typedef NS_ENUM(NSInteger, XMPPStreamState) {
+    STATE_XMPP_DISCONNECTED,
+    STATE_XMPP_RESOLVING_SRV,
+    STATE_XMPP_CONNECTING,
+    STATE_XMPP_OPENING,
+    STATE_XMPP_NEGOTIATING,
+    STATE_XMPP_STARTTLS_1,
+    STATE_XMPP_STARTTLS_2,
+    STATE_XMPP_POST_NEGOTIATION,
+    STATE_XMPP_REGISTERING,
+    STATE_XMPP_AUTH,
+    STATE_XMPP_BINDING,
+    STATE_XMPP_START_SESSION,
+    STATE_XMPP_CONNECTED,
+};
+
 @interface XMPPStream : NSObject <GCDAsyncSocketDelegate>
+{
+    XMPPStreamState state;
+
+    XMPPParser *parser;
+    
+    GCDMulticastDelegate <XMPPStreamDelegate> *multicastDelegate;
+}
 
 /**
  * Standard XMPP initialization.

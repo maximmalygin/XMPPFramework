@@ -12,10 +12,10 @@
 
 #import <Foundation/Foundation.h>
 
-#if !TARGET_OS_IPHONE
-  #import <Cocoa/Cocoa.h>
+#if TARGET_OS_IPHONE
+    #import <UIKit/UIKit.h>
 #else
-#import <UIKit/UIKit.h>
+    #import <Cocoa/Cocoa.h>
 #endif
 
 #import "XMPP.h"

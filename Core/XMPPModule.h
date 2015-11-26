@@ -25,6 +25,7 @@
 
 @property (readonly) dispatch_queue_t moduleQueue;
 @property (readonly) void *moduleQueueTag;
+@property (readonly) id multicastDelegate;
 
 @property (strong, readonly) XMPPStream *xmppStream;
 

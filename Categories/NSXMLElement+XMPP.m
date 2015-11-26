@@ -5,23 +5,31 @@
 #warning This file must be compiled with ARC. Use -fobjc-arc flag (or convert project to ARC).
 #endif
 
+#if TARGET_OS_IPHONE
+
+@implementation DDXMLElement (XMPP)
+
+#else
+
 @implementation NSXMLElement (XMPP)
+
+#endif
 
 /**
  * Convenience methods for Creating elements.
 **/
 
-+ (NSXMLElement *)elementWithName:(NSString *)name numberValue:(NSNumber *)number
++ (instancetype)elementWithName:(NSString *)name numberValue:(NSNumber *)number
 {
     return [self elementWithName:name stringValue:[number stringValue]];
 }
 
-- (id)initWithName:(NSString *)name numberValue:(NSNumber *)number
+- (instancetype)initWithName:(NSString *)name numberValue:(NSNumber *)number
 {
     return [self initWithName:name stringValue:[number stringValue]];
 }
 
-+ (NSXMLElement *)elementWithName:(NSString *)name objectValue:(id)objectValue
++ (instancetype)elementWithName:(NSString *)name objectValue:(id)objectValue
 {
     if([objectValue isKindOfClass:[NSString class]])
     {
@@ -41,7 +49,7 @@
     }
 }
 
-- (id)initWithName:(NSString *)name objectValue:(id)objectValue
+- (instancetype)initWithName:(NSString *)name objectValue:(id)objectValue
 {
     if([objectValue isKindOfClass:[NSString class]])
     {
@@ -64,14 +72,14 @@
 /**
  * Quick method to create an element
 **/
-+ (NSXMLElement *)elementWithName:(NSString *)name xmlns:(NSString *)ns
++ (instancetype)elementWithName:(NSString *)name xmlns:(NSString *)ns
 {
 	NSXMLElement *element = [NSXMLElement elementWithName:name];
 	[element setXmlns:ns];
 	return element;
 }
 
-- (id)initWithName:(NSString *)name xmlns:(NSString *)ns
+- (instancetype)initWithName:(NSString *)name xmlns:(NSString *)ns
 {
 	if ((self = [self initWithName:name]))
 	{
@@ -124,7 +132,7 @@
  * This method returns the first child element for the given name (as an NSXMLElement).
  * If no child elements exist for the given name, nil is returned.
 **/
-- (NSXMLElement *)elementForName:(NSString *)name
+- (instancetype)elementForName:(NSString *)name
 {
 	NSArray *elements = [self elementsForName:name];
 	if ([elements count] > 0)
@@ -160,7 +168,7 @@
  * This method returns the first child element for the given name and given xmlns (as an NSXMLElement).
  * If no child elements exist for the given name and given xmlns, nil is returned.
 **/
-- (NSXMLElement *)elementForName:(NSString *)name xmlns:(NSString *)xmlns
+- (instancetype)elementForName:(NSString *)name xmlns:(NSString *)xmlns
 {
 	NSArray *elements = [self elementsForLocalName:name URI:xmlns];
 	if ([elements count] > 0)
@@ -173,7 +181,7 @@
 	}
 }
 
-- (NSXMLElement *)elementForName:(NSString *)name xmlnsPrefix:(NSString *)xmlnsPrefix{
+- (instancetype)elementForName:(NSString *)name xmlnsPrefix:(NSString *)xmlnsPrefix{
     
     NSXMLElement *result = nil;
 	

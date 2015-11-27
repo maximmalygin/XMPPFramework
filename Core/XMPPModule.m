@@ -9,6 +9,8 @@
 
 @implementation XMPPModule
 
+@synthesize multicastDelegate = multicastDelegate;
+
 /**
  * Standard init method.
 **/

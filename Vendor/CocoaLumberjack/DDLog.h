@@ -44,6 +44,9 @@
  * This means you can pass it multiple variables just like NSLog.
 **/
 
+#ifndef _DDLOG_INCLUDEDD_
+#define _DDLOG_INCLUDEDD_
+
 #ifndef LOG_LEVEL_DEF
     #define LOG_LEVEL_DEF ddLogLevel
 #endif
@@ -632,3 +635,6 @@ typedef int DDLogMessageOptions;
 - (BOOL)isOnInternalLoggerQueue;
 
 @end
+
+
+#endif

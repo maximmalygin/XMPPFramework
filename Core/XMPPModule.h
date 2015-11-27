@@ -30,7 +30,7 @@
 @property (strong, readonly) XMPPStream *xmppStream;
 
 - (id)init;
-- (id)initWithDispatchQueue:(dispatch_queue_t)queue;
+- (id)initWithDispatchQueue:(dispatch_queue_t)queue NS_DESIGNATED_INITIALIZER;
 
 - (BOOL)activate:(XMPPStream *)aXmppStream;
 - (void)deactivate;

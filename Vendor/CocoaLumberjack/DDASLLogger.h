@@ -1,7 +1,18 @@
 #import <Foundation/Foundation.h>
-#import <asl.h>
 
 #import "DDLog.h"
+
+#if __cplusplus
+#import <asl.h>
+#else
+
+#if !(TARGET_IPHONE_SIMULATOR)
+@import asl;
+#else
+@import aslSimu;
+#endif
+
+#endif
 
 /**
  * Welcome to Cocoa Lumberjack!
